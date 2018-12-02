@@ -1,0 +1,22 @@
+{% include 'main_header.html' %}
+
+
+
+            {% include 'left_sidebar.html' %}
+
+
+
+
+            {% block page_content %}
+            {% endblock %}
+
+
+
+            {% include 'right_sidebar.html' %}
+
+            {% include 'layout_scripts.html' %}
+
+            {% block script %}
+            {% endblock %}
+
+{% include 'main_footer.html' %}

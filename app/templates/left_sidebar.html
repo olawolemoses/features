@@ -1,0 +1,85 @@
+<!-- ========== Left Sidebar Start ========== -->
+<div class="left side-menu">
+    <div class="sidebar-inner slimscrollleft">
+
+        <div id="sidebar-menu">
+            <ul>
+                <li class="menu-title">Main</li>
+
+
+                <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect waves-primary"><i class="md md-palette"></i> <span> Features </span>
+                     <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('hrequests.create') }}">Add a new Feature</a></li>
+                        <li><a href="{{ url_for('hrequests.index') }}">List Features</a></li>
+                    </ul>
+                </li>
+
+                <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect waves-primary"><i
+                            class="md md-invert-colors-on"></i><span> Clients </span> <span
+                            class="label label-success pull-right">6</span> </a>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('clients.create') }}">Add New Client</a></li>
+                        <li><a href="{{ url_for('clients.index') }}">List Clients</a></li>
+
+                    </ul>
+                </li>
+
+                <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect waves-primary"><i class="md md-redeem"></i>
+                        <span> Product Areas </span> <span class="menu-arrow"></span> </a>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('productareas.create') }}">Add new Product Area</a></li>
+                        <li><a href="{{ url_for('productareas.index') }}">List Product areas</a></li>
+                    </ul>
+                </li>
+
+                <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect waves-primary"><i class="md md-redeem"></i>
+                        <span> Projects </span> <span class="menu-arrow"></span> </a>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('projects.create') }}">Add new Project</a></li>
+                        <li><a href="{{ url_for('projects.index') }}">List Projects</a></li>
+                    </ul>
+                </li>
+
+
+                <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect waves-primary"><i class="md md-redeem"></i>
+                        <span> Users </span> <span class="menu-arrow"></span> </a>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('users.create') }}">Add new User</a></li>
+                        <li><a href="{{ url_for('users.index') }}">List Users</a></li>
+                    </ul>
+                </li>
+
+
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="user-detail">
+        <div class="dropup">
+            <a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true">
+                <img  src="assets/images/users/avatar-2.jpg" alt="user-img" class="img-circle">
+                <span class="user-info-span">
+                    <h5 class="m-t-0 m-b-0">John Deo</h5>
+                    <p class="text-muted m-b-0">
+                        <small><i class="fa fa-circle text-success"></i> <span>Online</span></small>
+                    </p>
+                </span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="javascript:void(0)"><i class="md md-face-unlock"></i> Profile</a></li>
+                <li><a href="{{ url_for('auth.logout') }}"><i class="md md-settings-power"></i> Logout</a></li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+<!-- Left Sidebar End -->

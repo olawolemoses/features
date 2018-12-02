@@ -1,0 +1,43 @@
+{% import "bootstrap/utils.html" as utils %}
+{% extends 'layout.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block page_content %}
+{{ super() }}
+
+<div class="content-page">
+    <!-- Start content -->
+          <div class="content">
+                <div class="container">
+
+                  <!-- Page-Title -->
+                  <div class="row">
+                      <div class="col-sm-12">
+                          <div class="page-title-box">
+                              <ol class="breadcrumb pull-right">
+                                  <li><a href="#">Home</a></li>
+                                  <li><a href="#">Projects</a></li>
+                                  <li class="active">Edit</li>
+                              </ol>
+                              <h4 class="page-title">Projects</h4>
+                          </div>
+                      </div>
+                  </div>
+
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="card-box">
+                              <h3>Edit Project ({{project.id}})</h3>
+
+                              <hr />
+                            {{ utils.flashed_messages() }}
+                            
+                            {{ wtf.quick_form(form) }}
+                            </div>
+                          </div>
+
+                        </div>
+                </div>
+        </div>
+</div>
+
+{% endblock %}

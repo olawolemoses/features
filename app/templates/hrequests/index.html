@@ -1,0 +1,179 @@
+{% import "bootstrap/utils.html" as utils %}
+{% extends 'layout.html' %}
+{% import "hrequests/_macros.html" as macros %}
+
+{% block page_content %}
+{{ super() }}
+
+  <!-- ============================================================== -->
+  <!-- Start right Content here -->
+  <!-- ============================================================== -->
+
+  <div class="content-page">
+      <!-- Start content -->
+            <div class="content">
+                <div class="container">
+
+                    <!-- Page-Title -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="page-title-box">
+
+                                <ol class="breadcrumb pull-right">
+                                    <li><a href="#">Home</a></li>
+                                    <li><a href="#">Features</a></li>
+                                    <li class="active">Manage</li>
+                                </ol>
+
+                                <h4 class="page-title">Feature Requests</h4>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                          <div class="card-box">
+
+                            <h3>Manage Feature Requests</h3>
+
+                            <hr />
+
+                            {{ utils.flashed_messages() }}
+
+                            <div class="table-rep-plugin">
+                              <div class="table-responsive" data-pattern="priority-columns">
+
+
+
+                                <table id="tech-companies-1" class="table  table-striped">
+                                  <thead>
+                                    <tr>
+                                      <th data-priority="1">SN</th>
+                                      <th data-priority="2">Title</th>
+                                      <th data-priority="4">Client Priority</th>
+                                      <th data-priority="9">Target Date</th>
+                                      <th data-priority="6">Product Areas</th>
+                                      <th data-priority="8">Client</th>
+                                      <th data-priority="9">Project</th>
+                                      <th data-priority="9">Actions</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+
+                                    {% set count = 1 %}
+                                    {% for feature in features %}
+                                    <tr>
+                                        <th><span class="co-name">{{ count }}</span></th>
+                                        <td>{{ feature.title }}</td>
+                                        <td>{{ feature.client_priority }}</td>
+                                        <td>{{ feature.target_date }}</td>
+                                        <td>{{ feature.product_area.product_area }}</td>
+                                        <td>{{ feature.client.client_name }}</td>
+                                        <td>{{ feature.project.project_name }}</td>
+                                        <td>
+                                              <a href="#" class="mr-3" data-toggle="modal" data-target="#exampleModal" data-id="{{feature.id}}" data-request_title="{{feature.title}}">
+                                                      <i class="md md-delete"></i> Delete
+                                              </a>
+                                              &nbsp;
+                                              <a href="{{ url_for('hrequests.show', id=feature.id) }}"><i class="ti-eye"></i> View</a>
+                                        </td>
+                                    </tr>
+                                    {% set count = count + 1 %}
+                                    {% endfor %}
+
+
+                                  </tbody>
+                                </table>
+                              </div>
+
+                            </div>
+
+                          </div>
+                        </div>
+                    </div>
+
+                    {% if pagination %}
+                    <div class="pagination">
+                        {{ macros.pagination_widget(pagination, '.index') }}
+                    </div>
+                    {% endif %}
+                    
+
+                    <!-- end row -->
+
+
+                </div>
+                <!-- end container -->
+
+            </div>
+      <!-- end content -->
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header" id="difftype">
+              <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+              </div>
+              <div class="modal-body">
+                  <div class="row text-center">
+                      <img src="{{ url_for('static', filename = 'images/delete.png') }}" />
+                  </div>
+              </div>
+              <form action="{{ url_for('hrequests.delete')}}" method="post">
+                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                     <input type="hidden" id="request_id" name="request_id">
+                    <p class="text-center">Are you sure you want to delete this request </p>
+                    <p  class="text-center">Initiated for <span id="request_title"></span></p>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btncan" data-dismiss="modal">DON'T DELETE</button>
+                        <button type="submit" class="btn btn-danger">DELETE</button>
+                    </div>
+              </form>
+          </div>
+      </div>
+  </div>
+  <!-- ============================================================== -->
+  <!-- End Right content here -->
+  <!-- ============================================================== -->
+
+
+{% endblock %}
+
+{% block script %}
+<script>
+	$(document).ready(function() {
+        $('.request').addClass("active");
+  });
+
+    $(function() {
+        $('#exampleModal').on("show.bs.modal", function (e) {
+            $("#request_id").val($(e.relatedTarget).data('id'));
+            $("#request_title").text($(e.relatedTarget).data('request_title'));
+        });
+    });
+
+
+    $('.datefade').datepicker({
+      	format: "yyyy-mm-dd",
+      	autoclose: true,
+      	todayHighlight: true,
+        orientation: "bottom"
+    });
+
+    var today = new Date();
+    $('#demoDate').datepicker({
+        format: "yyyy-mm-dd",
+        autoclose: true,
+        todayHighlight: true,
+        orientation: "bottom",
+        endDate: "today",
+        maxDate: today
+    });
+</script>
+{% endblock %}

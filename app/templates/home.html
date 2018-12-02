@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+{{ super() }}
+
+<!-- HOME -->
+<section>
+    <div class="container-alt">
+        <div class="row">
+
+          <ul class="nav navbar-nav navbar-right">
+           {% if current_user.is_authenticated %}
+           <li><a href="{{ url_for('auth.logout') }}">Sign Out</a></li>
+           {% else %}
+           <li><a href="{{ url_for('auth.login') }}">Sign In</a></li>
+           {% endif %}
+          </ul>
+
+            <div class="col-sm-12 text-center">
+                <div class="home-wrapper">
+                    <h2 class="icon-main text-primary m-b-25"><i class="md md-equalizer"></i></h2>
+                    <div class="text-center">
+                <a href="{{ url_for('main.index') }}" class="logo-lg"><span>HRequests</span> </a>
+            </div>
+
+                    <p>With HRequests you can manage new features that will be added onto software projects. </p>
+
+                      <p>
+                        <button type="button" onclick="location.href='{{ url_for('auth.register') }}';" class="btn btn-success waves-effect waves-light m-t-10">Sign up</button>
+                        <button type="button" onclick="location.href='/auth/login';" class="btn btn-primary waves-effect waves-light m-t-10">Login</button>
+                      </p
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+  <!-- END HOME -->
+
+{% endblock %}

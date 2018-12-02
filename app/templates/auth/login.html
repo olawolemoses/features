@@ -1,0 +1,19 @@
+{% import "bootstrap/utils.html" as utils %}
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block page_content %}
+{{ super() }}
+
+        <div class="wrapper-page">
+
+
+            <div class="text-center">
+                <a href="{{ url_for('main.index') }}" class="logo-lg"><i class="md md-equalizer"></i> <span>HRequests</span> </a>
+            </div>
+
+            {{ utils.flashed_messages() }}
+
+            {{ wtf.quick_form(form) }}
+        </div>
+
+{% endblock %}

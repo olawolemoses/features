@@ -1,0 +1,139 @@
+{% import "bootstrap/utils.html" as utils %}
+{% extends 'layout.html' %}
+
+{% block page_content %}
+{{ super() }}
+
+  <!-- ============================================================== -->
+  <!-- Start right Content here -->
+  <!-- ============================================================== -->
+
+  <div class="content-page">
+      <!-- Start content -->
+            <div class="content">
+                <div class="container">
+
+                    <!-- Page-Title -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="page-title-box">
+
+                                <ol class="breadcrumb pull-right">
+                                    <li><a href="#">Home</a></li>
+                                    <li><a href="#">Projects</a></li>
+                                    <li class="active">Manage</li>
+                                </ol>
+
+                                <h4 class="page-title">Projects</h4>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                          <div class="card-box">
+
+                            <h3>Manage Projects</h3>
+
+                            <hr />
+
+                              {{ utils.flashed_messages() }}
+
+                            <div class="table-rep-plugin">
+                              <div class="table-responsive" data-pattern="priority-columns">
+                                <table id="tech-companies-1" class="table  table-striped">
+                                  <thead>
+                                    <tr>
+                                      <th data-priority="1">SN</th>
+                                      <th data-priority="2">Project Name</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+
+                                    {% set count = 1 %}
+                                    {% for project in projects %}
+                                    <tr>
+                                        <th><span class="co-name">{{count}}</span></th>
+                                        <td>{{ project.project_name }}</td>
+                                        <td>
+                                              <a href="#" class="mr-3" data-toggle="modal" data-target="#exampleModal" data-id="{{project.id}}" data-project_name="{{project.project_name}}">
+                                                      <i class="md md-delete"></i> Delete
+                                              </a>
+                                              &nbsp;
+                                              <a href="{{ url_for('projects.show', id=project.id) }}"><i class="ti-eye"></i> View</a>
+                                        </td>
+                                    </tr>
+                                    {% set count = count + 1 %}
+                                    {% endfor %}
+
+
+                                  </tbody>
+                                </table>
+                              </div>
+
+                            </div>
+
+                          </div>
+                        </div>
+                    </div>
+                    <!-- end row -->
+
+
+                </div>
+                <!-- end container -->
+
+            </div>
+      <!-- end content -->
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header" id="difftype">
+              <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+              </div>
+              <form action="{{ url_for('projects.delete')}}" method="post">
+              <div class="modal-body">
+                  <div class="row text-center">
+                      <img src="{{ url_for('static', filename = 'images/delete.png') }}" />
+                  </div>
+              </div>
+
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                  <input type="hidden" id="project_id" name="project_id">
+                  <p class="text-center">Are you sure you want to delete this client </p>
+                  <p  class="text-center">Initiated for <span id="project_name"></span></p>
+
+                  <div class="modal-footer">
+                      <button type="button" class="btn btncan" data-dismiss="modal">DON'T DELETE</button>
+                      <button type="submit" class="btn btn-danger">DELETE</button>
+                  </div>
+
+              </form>
+          </div>
+      </div>
+  </div>
+  <!-- ============================================================== -->
+  <!-- End Right content here -->
+  <!-- ============================================================== -->
+
+
+{% endblock %}
+
+{% block script %}
+<script>
+
+  $(function() {
+      $('#exampleModal').on("show.bs.modal", function (e) {
+          $("#project_id").val($(e.relatedTarget).data('id'));
+          $("#project_name").text($(e.relatedTarget).data('project_name'));
+      });
+  });
+
+</script>
+{% endblock %}

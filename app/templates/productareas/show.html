@@ -1,0 +1,113 @@
+{% import "bootstrap/utils.html" as utils %}
+{% extends 'layout.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block page_content %}
+{{ super() }}
+
+<div class="content-page">
+    <!-- Start content -->
+          <div class="content">
+                <div class="container">
+
+                  <!-- Page-Title -->
+                  <div class="row">
+                      <div class="col-sm-12">
+                          <div class="page-title-box">
+                              <ol class="breadcrumb pull-right">
+                                  <li><a href="#">Home</a></li>
+                                  <li><a href="#">Product Areas</a></li>
+                                  <li class="active">Create New</li>
+                              </ol>
+                              <h4 class="page-title">Product Area</h4>
+                          </div>
+                      </div>
+                  </div>
+
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="card-box">
+                              <h3>Show Product Area ({{ product_area.id }})</h3>
+
+                              <hr />
+
+                              {{ utils.flashed_messages() }}
+
+                              <div class="container wrapper mb-5">
+                                      <div class="container">
+                                          <div class="card">
+                                              <div class="card-body p-0">
+                                                  <table class="table table-hover">
+                                                      <tbody>
+                                                          <tr style="padding-top:20px;">
+                                                              <th scope="row">Product Area</th>
+                                                              <td>{{ product_area.product_area }}</td>
+                                                          </tr>
+                                                          <tr>
+                                                              <th scope="row">&nbsp;</th>
+                                                              <td>
+                                                                  <button class="btn btn-primary generate" onclick="location.href='{{ url_for('productareas.edit', id=product_area.id) }}';">EDIT</button>
+                                                                  <button class="btn btn-danger generate" data-toggle="modal" data-target="#exampleModal" data-id="{{product_area.id}}" data-product_area="{{product_area.product_area}}">DELETE</button>
+                                                              </td>
+                                                          </tr>
+                                                      </tbody>
+                                                  </table>
+                                              </div>
+
+                                          </div>
+
+                                      </div>
+                                  </div>
+
+
+
+                            </div>
+                          </div>
+
+                        </div>
+                </div>
+        </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" id="difftype">
+            <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <div class="row text-center">
+                    <img src="{{ url_for('static', filename = 'images/delete.png') }}" />
+                </div>
+            </div>
+            <form action="{{ url_for('productareas.delete')}}" method="post">
+                   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                   <input type="hidden" id="product_area_id" name="product_area_id">
+                <p class="text-center">Are you sure you want to delete this client </p>
+                <p  class="text-center">Initiated for <span id="product_area"></span></p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btncan" data-dismiss="modal">DON'T DELETE</button>
+                    <button type="submit" class="btn btn-danger">DELETE</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+
+$(function() {
+    $('#exampleModal').on("show.bs.modal", function (e) {
+        $("#product_area_id").val($(e.relatedTarget).data('id'));
+        $("#product_area").text($(e.relatedTarget).data('product_area'));
+    });
+});
+
+</script>
+{% endblock %}
