@@ -4,7 +4,7 @@ from flask import render_template, session, redirect, url_for
 from . import main
 from .forms import NameForm
 from .. import db
-from ..models import User
+from ..models import User, Log
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
@@ -18,8 +18,16 @@ def index():
                                     current_time=datetime.utcnow())
 
 
+
 from flask.ext.login import login_required
 @main.route('/secret')
 @login_required
 def secret():
     return 'Only authenticated users are allowed!'
+
+
+@main.context_processor
+def inject_logs():
+    logs = Log.query.all()
+    print "logs: ", logs
+    return dict(logs=logs)

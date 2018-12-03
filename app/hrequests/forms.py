@@ -21,5 +21,11 @@ class FeatureForm(Form):
         self.client.choices = [(0, 'Please Select')] + [(client.id, client.client_name) for client in Client.query.order_by(Client.client_name).all()]
         self.project.choices = [(0, 'Please Select')] + [(project.id, project.project_name) for project in Project.query.order_by(Project.project_name).all()]
         self.product_area.choices = [(0, 'Please Select')] + [(pa.id, pa.product_area) for pa in ProductArea.query.order_by(ProductArea.product_area).all()]
-        self.client_priority.choices = [(0, 'Please Select')] + [ (x, x) for x in range(1, Feature.query.count() + 1) ]
+        self.client_priority.choices = get_client_priority()
         #[('', 'Please Select'), ('1', 'low'), ('2', 'medium'), ('3', 'High')]
+
+def get_client_priority():
+    choices = [ (x, x) for x in range(1, Feature.query.count() + 1) ]
+    if len(choices) < 1:
+        choices = [ (1,1) ]
+    return [(0, 'Please Select')] + choices

@@ -24,8 +24,10 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    is_admin = db.Column(db.Integer, default=False)
 
     features = db.relationship("Feature", backref="user",  lazy='dynamic')
+    logs = db.relationship("Log", backref="user",  lazy='dynamic')
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -45,7 +47,7 @@ class User(UserMixin, db.Model):
 class Feature(db.Model):
     __tablename__ = 'features'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column('title', db.String(100), unique=True, nullable=False)
+    title = db.Column('title', db.String(100), nullable=False)
     description = db.Column('description', db.Text,  nullable=False)
     client_priority = db.Column('client_priority', db.Integer)
     target_date = db.Column('target_date', db.DateTime)
@@ -54,6 +56,8 @@ class Feature(db.Model):
     client_id = db.Column(db.Integer, db.ForeignKey('clients.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+    logs = db.relationship("Log", backref="feature",  lazy='dynamic')
 
     def __init__(self, title, description, client_id, client_priority, target_date, product_area_id, user_id, project_id ):
 
@@ -115,6 +119,26 @@ class ProductArea(db.Model):
 
     def __repr__(self):
         return '<ProductArea %r>' % self.product_area
+
+class Log(db.Model):
+
+    __tablename__ = 'logs'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column('user_id', db.Integer,  db.ForeignKey('users.id'), nullable=False)
+    action = db.Column(db.Text)
+    feature_id = db.Column('feature_id', db.Integer,  db.ForeignKey('features.id'), nullable=False)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+    def __init__(self, user_id, feature_id, action, timestamp):
+        self.user_id = user_id
+        self.action = action
+        self.feature_id = feature_id
+        self.timestamp = timestamp
+
+    def __repr__(self):
+        return '<Log %r>' % self.user.username + ' ' + self.action \
+                        + ' ' + self.feature.title + ' ' + unicode(self.timestamp)
 
 
 from . import login_manager

@@ -1,3 +1,3 @@
 from flask import Blueprint
-clients = Blueprint('clients', __name__)
+admin = Blueprint('admin', __name__)
 from . import views

@@ -7,7 +7,7 @@ from flask_login import login_required, current_user
 from . import hrequests
 from forms import FeatureForm
 from .. import db
-from ..models import User, Client, ProductArea, Feature, User
+from ..models import User, Client, ProductArea, Feature, User, Log
 
 import app
 
@@ -30,11 +30,20 @@ def create():
             )
 
         # reorder
-
         arr = \
             Feature.query.filter_by(client_id=form.client.data).order_by(Feature.client_priority).all()
         reorder(arr, form.client_priority.data)
         db.session.add(feature)
+        db.session.commit()
+        log = Log(
+                user_id=current_user._get_current_object().id,
+                feature_id=feature.id,
+                action="created",
+                timestamp=datetime.utcnow()
+            )
+
+        db.session.add(log)
+        db.session.commit()
         flash('You have successfully created the Feature Request.')
         return redirect(url_for('.index'))
 
@@ -91,6 +100,15 @@ def edit(id):
                 != feature.id).order_by(Feature.client_priority).all()
         reorder(arr, form.client_priority.data)
         db.session.add(feature)
+        db.session.commit()
+        log = Log(
+                user_id=current_user._get_current_object().id,
+                feature_id=feature.id,
+                action="updated",
+                timestamp=datetime.utcnow()
+            )
+
+        db.session.add(log)
         flash('You have successfully updated the Feature Request.')
         return redirect(url_for('.show', id=feature.id))
 
@@ -115,8 +133,24 @@ def delete():
     print feature
     db.session.delete(feature)
     db.session.commit()
+
+    log = Log(
+            user_id=current_user._get_current_object().id,
+            feature_id=feature.id,
+            action="deleted",
+            timestamp=datetime.utcnow()
+        )
+
+    db.session.add(log)
+    db.session.commit()
     flash('You have successfully deleted the Feature Request.')
     return redirect(url_for('.index'))
+
+@hrequests.context_processor
+def inject_logs():
+    logs = Log.query.all()
+    print "logs: ", logs
+    return dict(logs=logs)
 
 
 def reorder(arr, index):

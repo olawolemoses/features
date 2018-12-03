@@ -19,15 +19,11 @@ def create():
         return redirect(url_for('.index'))
     return render_template('clients/create.html', form=form)
 
-
 @clients.route('/index')
 @login_required
 def index():
     clients = Client.query.all()
-    return render_template('clients/index.html', clients=clients,
-                           name=session.get('name'),
-                           known=session.get('known', False),
-                           current_time=datetime.utcnow())
+    return render_template('clients/index.html', clients=clients)
 
 
 @clients.route('/show/<id>')
@@ -62,3 +58,10 @@ def delete():
     db.session.commit()
     flash('You have successfully deleted the Client.')
     return redirect(url_for('.index'))
+
+
+@clients.context_processor
+def inject_logs():
+    logs = Log.query.all()
+    print "logs: ", logs
+    return dict(logs=logs)

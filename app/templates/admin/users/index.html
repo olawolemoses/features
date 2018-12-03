@@ -48,6 +48,7 @@
                                       <th data-priority="1">SN</th>
                                       <th data-priority="2">Username</th>
                                       <th data-priority="3">Email</th>
+                                      <th data-priority="4">Role</th>
                                       <th data-priority="4">Actions</th>
                                     </tr>
                                   </thead>
@@ -60,11 +61,16 @@
                                         <td>{{ user.username }}</td>
                                         <td>{{ user.email }}</td>
                                         <td>
+                                            {% if user.role %}
+                                              {{ user.role.name }}
+                                            {% else %}
+                                              -
+                                            {% endif %}
+                                          </td>
+                                        <td>
                                               <a href="#" class="mr-3" data-toggle="modal" data-target="#exampleModal" data-id="{{user.id}}" data-username="{{user.username}}">
-                                                      <i class="md md-delete"></i> Delete
+                                                      <i class="md md-delete"></i> Assign
                                               </a>
-                                              &nbsp;
-                                              <a href="{{ url_for('users.show', id=user.id) }}"><i class="ti-eye"></i> View</a>
                                         </td>
                                     </tr>
 
@@ -99,30 +105,38 @@
           <div class="modal-content">
               <div class="modal-header" id="difftype">
 
-                <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Assign Role</h5>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
               </div>
 
+              <form action="{{ url_for('admin.users_assign')}}" method="post">
               <div class="modal-body">
-                  <div class="row text-center">
-                      <img src="{{ url_for('static', filename = 'images/delete.png') }}" />
-                  </div>
+
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" id="user_id" name="user_id">
+
+                <p class="text-center">Select the role to assign </p>
+
+                <p  class="text-center">Initiated for <span id="username"></span></p>
+
+                <select name="role" class="form-control" id="role">
+                  {% for role in roles %}
+                  <option value="{{ role.id }}"> {{ role.name}}</option>
+                  {% endfor %}
+                </select>
+
+
               </div>
 
-              <form action="{{ url_for('users.delete')}}" method="post">
 
-                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                 <input type="hidden" id="user_id" name="user_id">
 
-                  <p class="text-center">Are you sure you want to delete this request </p>
-                  <p  class="text-center">Initiated for <span id="username"></span></p>
 
                   <div class="modal-footer">
-                      <button type="button" class="btn btncan" data-dismiss="modal">DON'T DELETE</button>
-                      <button type="submit" class="btn btn-danger">DELETE</button>
+                      <button type="button" class="btn btncan" data-dismiss="modal">CANCEL</button>
+                      <button type="submit" class="btn btn-primary">ASSIGN</button>
                   </div>
 
               </form>

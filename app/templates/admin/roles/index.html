@@ -1,0 +1,102 @@
+{% import "bootstrap/utils.html" as utils %}
+{% extends 'layout.html' %}
+
+{% block page_content %}
+{{ super() }}
+
+  <!-- ============================================================== -->
+  <!-- Start right Content here -->
+  <!-- ============================================================== -->
+
+  <div class="content-page">
+      <!-- Start content -->
+            <div class="content">
+                <div class="container">
+
+                    <!-- Page-Title -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="page-title-box">
+
+                                <ol class="breadcrumb pull-right">
+                                    <li><a href="#">Home</a></li>
+                                    <li><a href="#">Roles</a></li>
+                                    <li class="active">Manage</li>
+                                </ol>
+
+                                <h4 class="page-title">Roles</h4>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                          <div class="card-box">
+
+                            <h3>Manage Roles</h3>
+
+                            <hr />
+
+                            {{ utils.flashed_messages() }}
+
+                            <div class="table-rep-plugin">
+                              <div class="table-responsive" data-pattern="priority-columns">
+                                <table id="tech-companies-1" class="table  table-striped">
+                                  <thead>
+                                    <tr>
+                                      <th data-priority="1">SN</th>
+                                      <th data-priority="2">Name </th>
+                                      <th data-priority="3">Description </th>
+                                      <th data-priority="4">Employee Count </th>
+                                      <th data-priority="5">Actions </th>
+
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+
+                                    {% set count = 1 %}
+                                    {% for role in roles %}
+                                      <tr>
+                                        <th><span class="co-name">{{ count }}</span></th>
+                                        <td> {{ role.name }} </td>
+                                        <td> {{ role.description }} </td>
+                                        <td>
+                                          {% if role.employees %}
+                                            {{ role.employees.count() }}
+                                          {% else %}
+                                            0
+                                          {% endif %}
+                                        </td>                                        
+                                        <td>
+                                          <a href="#" class="mr-3" data-toggle="modal" data-target="#exampleModal" data-id="{{role.id}}" data-rolename="{{role.name}}">
+                                                  <i class="md md-delete"></i> Delete
+                                          </a>
+                                          &nbsp;
+                                          <a href="{{ url_for('admin.edit_role', id=role.id) }}"><i class="fa fa-pencil"></i> View</a>
+
+                                        </td>
+                                      </tr>
+                                    {% set count = count + 1 %}
+                                    {% endfor %}
+
+
+                                  </tbody>
+                                </table>
+                              </div>
+
+                            </div>
+
+                          </div>
+                        </div>
+                    </div>
+                    <!-- end row -->
+
+
+                </div>
+                <!-- end container -->
+
+            </div>
+      <!-- end content -->
+  </div>
+{% endblock %}

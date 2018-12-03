@@ -57,10 +57,11 @@ def create_app(config_name):
     from .productareas import productareas as productareas_blueprint
     app.register_blueprint(productareas_blueprint, url_prefix='/productareas')
 
-    from .users import users as users_blueprint
-    app.register_blueprint(users_blueprint, url_prefix='/users')
+    from .admin import admin as admin_blueprint
+    app.register_blueprint(admin_blueprint, url_prefix='/admin')
 
     from .projects import projects as projects_blueprint
     app.register_blueprint(projects_blueprint, url_prefix='/projects')
+
 
     return app

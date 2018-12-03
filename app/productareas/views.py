@@ -62,3 +62,9 @@ def delete():
     db.session.commit()
     flash('You have successfully deleted the Product Area.')
     return redirect(url_for('.index'))
+
+@productareas.context_processor
+def inject_logs():
+    logs = Log.query.all()
+    print "logs: ", logs
+    return dict(logs=logs)

@@ -60,3 +60,9 @@ def delete():
     db.session.commit()
     flash('You have successfully deleted the project.')
     return redirect(url_for('.index'))
+
+@projects.context_processor
+def inject_logs():
+    logs = Log.query.all()
+    print "logs: ", logs
+    return dict(logs=logs)
