@@ -8,6 +8,7 @@ class Config:
     FLASKY_MAIL_SENDER = 'Flasky Admin <flasky@example.com>'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
     POSTS_PER_PAGE = 5
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
 
     @staticmethod
     def init_app(app):
@@ -26,6 +27,7 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
+    WTF_CSRF_ENABLED = False
     SQLALCHEMY_DATABASE_URI = 'mysql://root@localhost/hrequests-test'
 
 class ProductionConfig(Config):
