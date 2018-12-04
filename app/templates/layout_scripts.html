@@ -1,6 +1,7 @@
 {% include 'base_scripts.html' %}
-
+{% import 'wtf_tinymce/editor.html' as tinymce with context %}
 <script src="{{ url_for('static', filename = 'plugins/switchery/switchery.min.js' ) }}"></script>
 
 <!-- responsive-table-->
 <script src="{{ url_for('static', filename = 'plugins/RWD-Table-Patterns/dist/js/rwd-table.min.js' ) }}" type="text/javascript"></script>
+{{ tinymce.init_wtf_tinymce(default_content_css='css/tinymce.css') }}

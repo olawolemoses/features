@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import render_template, session, redirect, url_for, request, flash
+from flask import render_template, session, redirect, url_for, request, flash, abort
 from flask_login import login_required, current_user
 from . import admin
 from ..auth.forms import RegistrationForm
@@ -7,25 +7,12 @@ from .forms import RoleForm, UserAssignForm
 from .. import db
 from ..models import User, Client, ProductArea, Feature, User, Role
 
-@admin.route('/users/new', methods=['GET', 'POST'])
-@login_required
-def users_create():
-    check_admin()
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = User(email=form.email.data,
-                    username=form.username.data,
-                    password=form.password.data)
-        db.session.add(user)
-        #flash('You can now login.')
-        return redirect(url_for('.users_index'))
-    return render_template('admin/users/create.html', form=form, name=session.get('name'),
-                                    known=session.get('known', False),
-                                    current_time=datetime.utcnow())
-
 @admin.route('/users/index')
 @login_required
 def users_index():
+    """
+    List all users
+    """
     check_admin()
     users = User.query.all()
     roles = Role.query.all()
@@ -52,10 +39,12 @@ def users_assign():
 
     if form.validate_on_submit():
         user.role = form.role.data
-        db.session.add(user)
-        db.session.commit()
-        flash('You have successfully assigned a role.')
-
+        try:
+            db.session.add(user)
+            db.session.commit()
+            flash('You have successfully assigned a role.')
+        except:
+            flash('Error: failed to assign a role.')
         # redirect to the roles page
         return redirect(url_for('admin.users_index'))
 
@@ -123,10 +112,12 @@ def edit_role(id):
     if form.validate_on_submit():
         role.name = form.name.data
         role.description = form.description.data
-        db.session.add(role)
-        db.session.commit()
-        flash('You have successfully edited the role.')
-
+        try:
+            db.session.add(role)
+            db.session.commit()
+            flash('You have successfully edited the role.')
+        except:
+            flash('Error: there is a problem assigning this role')
         # redirect to the roles page
         return redirect(url_for('admin.list_roles'))
 
@@ -145,10 +136,12 @@ def delete_role(id):
     check_admin()
 
     role = Role.query.get_or_404(id)
-    db.session.delete(role)
-    db.session.commit()
-    flash('You have successfully deleted the role.')
-
+    try:
+        db.session.delete(role)
+        db.session.commit()
+        flash('You have successfully deleted the role.')
+    except:
+        flash('An error occured while trying to delete the role.')
     # redirect to the roles page
     return redirect(url_for('admin.list_roles'))
 

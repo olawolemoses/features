@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from flask import render_template, session, redirect, url_for, request, \
-    flash, current_app
+    flash, current_app, abort
 from flask_login import login_required, current_user
 from . import hrequests
 from forms import FeatureForm
@@ -15,6 +15,9 @@ import app
 @hrequests.route('/new', methods=['GET', 'POST'])
 @login_required
 def create():
+    """
+    create a feature request
+    """
     form = FeatureForm()
     if form.validate_on_submit():
 
@@ -33,18 +36,21 @@ def create():
         arr = \
             Feature.query.filter_by(client_id=form.client.data).order_by(Feature.client_priority).all()
         reorder(arr, form.client_priority.data)
-        db.session.add(feature)
-        db.session.commit()
-        log = Log(
-                user_id=current_user._get_current_object().id,
-                feature_id=feature.id,
-                action="created",
-                timestamp=datetime.utcnow()
-            )
+        try:
+            db.session.add(feature)
+            db.session.commit()
+            log = Log(
+                    user_id=current_user._get_current_object().id,
+                    feature_id=feature.id,
+                    action="created",
+                    timestamp=datetime.utcnow()
+                )
+            db.session.add(log)
+            db.session.commit()
+            flash('You have successfully created the Feature Request.')
+        except:
+            flash('Error: failed to create the Feature Request.')
 
-        db.session.add(log)
-        db.session.commit()
-        flash('You have successfully created the Feature Request.')
         return redirect(url_for('.index'))
 
     return render_template('hrequests/create.html', form=form)
@@ -53,6 +59,9 @@ def create():
 @hrequests.route('/index')
 @login_required
 def index():
+    """
+    list all feature requests
+    """
     page = request.args.get('page', 1, type=int)
 
     pagination = \
@@ -81,6 +90,9 @@ def show(id):
 @hrequests.route('/edit/<id>', methods=['GET', 'POST'])
 @login_required
 def edit(id):
+    """
+    edit a feature request
+    """
     feature = Feature.query.get_or_404(id)
 
     form = FeatureForm()
@@ -99,17 +111,21 @@ def edit(id):
                                    == form.client.data).filter(Feature.id
                 != feature.id).order_by(Feature.client_priority).all()
         reorder(arr, form.client_priority.data)
-        db.session.add(feature)
-        db.session.commit()
-        log = Log(
-                user_id=current_user._get_current_object().id,
-                feature_id=feature.id,
-                action="updated",
-                timestamp=datetime.utcnow()
+        try:
+            db.session.add(feature)
+            db.session.commit()
+            log = Log(
+                    user_id=current_user._get_current_object().id,
+                    feature_id=feature.id,
+                    action="updated",
+                    timestamp=datetime.utcnow()
             )
 
-        db.session.add(log)
-        flash('You have successfully updated the Feature Request.')
+            db.session.add(log)
+            flash('You have successfully updated the Feature Request.')
+        except:
+            flash('An error occured while trying to update the Feature Request.')
+
         return redirect(url_for('.show', id=feature.id))
 
     form.title.data = feature.title
@@ -128,26 +144,35 @@ def edit(id):
 @hrequests.route('/delete/', methods=['POST'])
 @login_required
 def delete():
+    """
+    delete a feature request
+    """
     id = request.form['request_id']
     feature = Feature.query.get_or_404(id)
-    print feature
-    db.session.delete(feature)
-    db.session.commit()
+    try:
+        db.session.delete(feature)
+        db.session.commit()
 
-    log = Log(
-            user_id=current_user._get_current_object().id,
-            feature_id=feature.id,
-            action="deleted",
-            timestamp=datetime.utcnow()
-        )
+        log = Log(
+                user_id=current_user._get_current_object().id,
+                feature_id=feature.id,
+                action="deleted",
+                timestamp=datetime.utcnow()
+            )
 
-    db.session.add(log)
-    db.session.commit()
-    flash('You have successfully deleted the Feature Request.')
+        db.session.add(log)
+        db.session.commit()
+        flash('You have successfully deleted the Feature Request.')
+    except:
+        flash('An error occured while deleting a Feature Request.')
+
     return redirect(url_for('.index'))
 
 @hrequests.context_processor
 def inject_logs():
+    """
+    inject logs into all templates in hrequests
+    """
     logs = Log.query.all()
     print "logs: ", logs
     return dict(logs=logs)

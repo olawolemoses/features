@@ -2,6 +2,7 @@
 {% extends 'layout.html' %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block page_content %}
+{% import 'wtf_tinymce/editor.html' as tinymce with context %}
 {{ super() }}
 
 <div class="content-page">

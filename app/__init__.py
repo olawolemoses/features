@@ -4,6 +4,8 @@ from flask_mail import Mail
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from config import config
+from wtf_tinymce import wtf_tinymce
+
 
 from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
@@ -22,6 +24,7 @@ db = SQLAlchemy()
 csrf = CSRFProtect()
 
 def create_app(config_name):
+
     app = Flask(__name__)
 
     app.config.from_object(config[config_name])
@@ -39,6 +42,8 @@ def create_app(config_name):
     db.init_app(app)
 
     login_manager.init_app(app)
+
+    wtf_tinymce.init_app(app)
 
     # attach routes and custom error pages here
 
@@ -63,5 +68,17 @@ def create_app(config_name):
     from .projects import projects as projects_blueprint
     app.register_blueprint(projects_blueprint, url_prefix='/projects')
 
+    @app.errorhandler(403)
+    def forbidden(error):
+        return render_template('errors/403.html', title='Forbidden'), 403
 
+    @app.errorhandler(404)
+    def page_not_found(error):
+        return render_template('errors/404.html', title='Page Not Found'), 404
+
+    @app.errorhandler(500)
+    def internal_server_error(error):
+        return render_template('errors/500.html', title='Server Error'), 500
+
+        
     return app

@@ -2,10 +2,15 @@ from flask.ext.wtf import Form
 from wtforms import StringField, SubmitField, SelectField, DateField
 from wtforms.validators import Required, Length, Email, Regexp
 from ..models import Feature, User, Client, ProductArea, Project
+from wtf_tinymce.forms.fields import TinyMceField
 
 class FeatureForm(Form):
     title = StringField('Title', validators=[Required()])
-    description = StringField('Description', validators=[Required(), Length(1, 64)])
+    description = TinyMceField(
+        'Description',
+        tinymce_options={'toolbar': 'bold italic | link | code', 'height':'300'},
+        validators=[Required()]
+    )
     client_priority = SelectField('Client Priority', validators=[Required()],coerce=int, default=None)
     target_date = DateField('Target Date', format="%m/%d/%Y", validators=[Required()])
     product_area = SelectField('Product Area', coerce=int, validators=[Required()], default=None)

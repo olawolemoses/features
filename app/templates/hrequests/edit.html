@@ -1,6 +1,7 @@
 {% import "bootstrap/utils.html" as utils %}
 {% extends 'layout.html' %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% import 'wtf_tinymce/editor.html' as tinymce with context %}
 {% block page_content %}
 {{ super() }}
 
@@ -31,7 +32,7 @@
                               <hr />
 
                             {{ utils.flashed_messages() }}
-                            
+
                             {{ wtf.quick_form(form) }}
                             </div>
                           </div>
@@ -41,4 +42,14 @@
         </div>
 </div>
 
+{% endblock %}
+{% block script %}
+  <script src="{{ url_for('static', filename = 'plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' ) }}">
+
+  </script>
+  <script>
+      $(function() {
+        $( "#target_date" ).datepicker();
+      });
+  </script>
 {% endblock %}
