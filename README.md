@@ -4,6 +4,8 @@ The complete guide to running the code
 Prerequisites:
 * [Python 2](https://www.python.org/download/releases/2.7.2/)
 * [virtualenv](https://virtualenv.pypa.io/en/stable/)
+* MySQL
+
 
 Clone the repo from GitHub:
 ```
@@ -13,11 +15,12 @@ git clone https://github.com/olawolemoses/features
 Create a virtual environment for the project and activate it:
 ```
 virtualenv venv
-source features/bin/activate
+source venv/bin/activate
 ```
 
 Install the required packages:
 ```
+pip install --upgrade setuptools
 pip install -r requirements.txt
 ```
 
