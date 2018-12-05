@@ -7,12 +7,17 @@
         <div class="wrapper-page">
 
             {{ utils.flashed_messages() }}
-            
+
             <div class="text-center">
                 <a href="{{ url_for('main.index') }}" class="logo-lg"><i class="md md-equalizer"></i> <span>HRequests</span> </a>
             </div>
 
             {{ wtf.quick_form(form) }}
+
+            <div class="content text-center">
+                  <p>You can click here to <a href="{{ url_for('auth.login') }}">Sign in</a></p>
+            </div>
         </div>
+
 
 {% endblock %}

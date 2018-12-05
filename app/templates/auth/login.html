@@ -14,6 +14,10 @@
             {{ utils.flashed_messages() }}
 
             {{ wtf.quick_form(form) }}
+
+            <div class="content text-center">
+                  <p>You can click here to <a href="{{ url_for('auth.register') }}">Register</a></p>
+            </div>
         </div>
 
 {% endblock %}
