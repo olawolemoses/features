@@ -46,7 +46,7 @@ mysql> GRANT ALL PRIVILEGES ON `hrequests-dev` . * TO 'iws_admin'@'localhost';
 ## instance/config.py file
 In the directory `config.py` file currently exist. The app has the following configuration variables:
 * SECRET_KEY
-* SQLALCHEMY_DATABASE_URI (`'mysql://iws_admin:iws2016@localhost/hrequests'`)
+* SQLALCHEMY_DATABASE_URI (`'mysql://iws_admin:iws2016@localhost/hrequests-dev'`)
 
 ## Launching the Program
 You can now run the app with the following command:
