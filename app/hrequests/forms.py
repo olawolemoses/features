@@ -13,12 +13,10 @@ class FeatureForm(Form):
     #user_id = StringField('User', validators=[Required(), Length(1, 64)])
     client = SelectField('Client', coerce=int, validators=[Required()], default=(None, '--'))
     project = SelectField('Project', coerce=int, validators=[Required()], default=None)
-    user = SelectField('User', coerce=int, default=None)
     submit = SubmitField('Submit')
 
     def __init__(self, *args, **kwargs):
         super(FeatureForm, self).__init__(*args, **kwargs)
-        self.user.choices =[(0, 'Please Select')] +  [(user.id, user.username) for user in User.query.order_by(User.username).all()]
         self.client.choices = [(0, 'Please Select')] + [(client.id, client.client_name) for client in Client.query.order_by(Client.client_name).all()]
         self.project.choices = [(0, 'Please Select')] + [(project.id, project.project_name) for project in Project.query.order_by(Project.project_name).all()]
         self.product_area.choices = [(0, 'Please Select')] + [(pa.id, pa.product_area) for pa in ProductArea.query.order_by(ProductArea.product_area).all()]
