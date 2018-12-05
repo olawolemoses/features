@@ -1,0 +1,30 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/bin/gunicorn", line 7, in <module>
+    from gunicorn.app.wsgiapp import run
+ImportError: No module named gunicorn.app.wsgiapp
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/bin/gunicorn", line 7, in <module>
+    from gunicorn.app.wsgiapp import run
+ImportError: No module named gunicorn.app.wsgiapp
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/bin/gunicorn", line 7, in <module>
+    from gunicorn.app.wsgiapp import run
+ImportError: No module named gunicorn.app.wsgiapp
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/bin/gunicorn", line 7, in <module>
+    from gunicorn.app.wsgiapp import run
+ImportError: No module named gunicorn.app.wsgiapp
+[2018-12-05 23:11:11 +0000] [25116] [INFO] Starting gunicorn 19.9.0
+[2018-12-05 23:11:11 +0000] [25116] [INFO] Listening at: http://0.0.0.0:5000 (25116)
+[2018-12-05 23:11:11 +0000] [25116] [INFO] Using worker: sync
+[2018-12-05 23:11:11 +0000] [25121] [INFO] Booting worker with pid: 25121
+/home/ubuntu/features/app/auth/views.py:51: FlaskWTFDeprecationWarning: "flask_wtf.Form" has been renamed to "FlaskForm" and will be removed in 1.0.
+  form = RegistrationForm()
+[2018-12-05 23:14:41 +0000] [25116] [CRITICAL] WORKER TIMEOUT (pid:25121)
+[2018-12-05 23:14:41 +0000] [25121] [INFO] Worker exiting (pid: 25121)
+[2018-12-05 23:14:41 +0000] [25166] [INFO] Booting worker with pid: 25166
+/home/ubuntu/features/app/auth/views.py:51: FlaskWTFDeprecationWarning: "flask_wtf.Form" has been renamed to "FlaskForm" and will be removed in 1.0.
+  form = RegistrationForm()
+[2018-12-05 23:25:46 +0000] [25116] [CRITICAL] WORKER TIMEOUT (pid:25166)
+[2018-12-05 23:25:46 +0000] [25166] [INFO] Worker exiting (pid: 25166)
+[2018-12-05 23:25:46 +0000] [25329] [INFO] Booting worker with pid: 25329

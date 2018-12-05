@@ -1,0 +1,20 @@
+2018-12-05 23:25:46,601 INFO sqlalchemy.engine.base.Engine SHOW VARIABLES LIKE 'sql_mode'
+2018-12-05 23:25:46,602 INFO sqlalchemy.engine.base.Engine ()
+2018-12-05 23:25:46,604 INFO sqlalchemy.engine.base.Engine SHOW VARIABLES LIKE 'lower_case_table_names'
+2018-12-05 23:25:46,604 INFO sqlalchemy.engine.base.Engine ()
+2018-12-05 23:25:46,606 INFO sqlalchemy.engine.base.Engine SELECT DATABASE()
+2018-12-05 23:25:46,606 INFO sqlalchemy.engine.base.Engine ()
+2018-12-05 23:25:46,607 INFO sqlalchemy.engine.base.Engine show collation where `Charset` = 'utf8mb4' and `Collation` = 'utf8mb4_bin'
+2018-12-05 23:25:46,607 INFO sqlalchemy.engine.base.Engine ()
+2018-12-05 23:25:46,608 INFO sqlalchemy.engine.base.Engine SELECT CAST('test plain returns' AS CHAR(60)) AS anon_1
+2018-12-05 23:25:46,608 INFO sqlalchemy.engine.base.Engine ()
+2018-12-05 23:25:46,609 INFO sqlalchemy.engine.base.Engine SELECT CAST('test unicode returns' AS CHAR(60)) AS anon_1
+2018-12-05 23:25:46,609 INFO sqlalchemy.engine.base.Engine ()
+2018-12-05 23:25:46,609 INFO sqlalchemy.engine.base.Engine SELECT CAST('test collated returns' AS CHAR CHARACTER SET utf8mb4) COLLATE utf8mb4_bin AS anon_1
+2018-12-05 23:25:46,610 INFO sqlalchemy.engine.base.Engine ()
+2018-12-05 23:25:46,610 INFO sqlalchemy.engine.base.Engine BEGIN (implicit)
+2018-12-05 23:25:46,611 INFO sqlalchemy.engine.base.Engine SELECT logs.id AS logs_id, logs.username AS logs_username, logs.action AS logs_action, logs.feature AS logs_feature, logs.timestamp AS logs_timestamp 
+FROM logs
+2018-12-05 23:25:46,611 INFO sqlalchemy.engine.base.Engine ()
+logs:  []
+2018-12-05 23:25:46,634 INFO sqlalchemy.engine.base.Engine COMMIT

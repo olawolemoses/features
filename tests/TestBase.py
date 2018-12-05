@@ -9,9 +9,6 @@ class TestBase(TestCase):
         # pass in test configuration
         config_name = 'testing'
         app = create_app(config_name)
-        app.config.update(
-            SQLALCHEMY_DATABASE_URI='mysql://iws_admin:iws2016*@localhost/hrequests-test'
-        )
         return app
 
     def setUp(self):
