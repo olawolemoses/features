@@ -54,7 +54,7 @@ def create():
             flash('Error: failed to create the Feature Request.')
 
         return redirect(url_for('.index'))
-
+    form.user.data = current_user._get_current_object().id
     return render_template('hrequests/create.html', form=form)
 
 

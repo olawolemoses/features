@@ -10,7 +10,7 @@ class FeatureForm(Form):
     client_priority = SelectField('Client Priority', validators=[Required()],coerce=int, default=None)
     target_date = DateField('Target Date', format="%m/%d/%Y", validators=[Required()])
     product_area = SelectField('Product Area', coerce=int, validators=[Required()], default=None)
-    #user_id = StringField('User', validators=[Required(), Length(1, 64)])
+    user_id =  IntegerField("", widget=HiddenInput() )
     client = SelectField('Client', coerce=int, validators=[Required()], default=(None, '--'))
     project = SelectField('Project', coerce=int, validators=[Required()], default=None)
     submit = SubmitField('Submit')
