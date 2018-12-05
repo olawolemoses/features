@@ -12,6 +12,9 @@ Clone the repo from GitHub:
 git clone https://github.com/olawolemoses/features
 ```
 
+Change to the directory
+`cd features`
+
 Create a virtual environment for the project and activate it:
 ```
 virtualenv venv
@@ -21,9 +24,9 @@ source venv/bin/activate
 Install the required packages:
 ```
 pip install --upgrade setuptools
-pip install mysqlpy
 pip install -r requirements.txt
 ```
+
 
 ## Database configuration
 * Create a MySQL user your terminal and a MySQL database.
@@ -39,15 +42,20 @@ mysql> CREATE DATABASE `hrequests-dev`;
 mysql> GRANT ALL PRIVILEGES ON `hrequests-dev` . * TO 'iws_admin'@'localhost';
 ```
 
+## instance/config.py file
+In the directory `config.py` file currently exist. The app has the following configuration variables:
+* SECRET_KEY
+* SQLALCHEMY_DATABASE_URI (`'mysql://iws_admin:iws2016@localhost/hrequests-dev'`)
+
+## Setting Up the DATABASE
+You can now run the app with the following command:
+
 * `python manager.py db init`
 * `python manager.py db migrate`
 * `python manager.py db upgrade`
 * `python manager.py deploy`
 
-## instance/config.py file
-In the directory `config.py` file currently exist. The app has the following configuration variables:
-* SECRET_KEY
-* SQLALCHEMY_DATABASE_URI (`'mysql://iws_admin:iws2016@localhost/hrequests-dev'`)
+
 
 ## Launching the Program
 You can now run the app with the following command:
@@ -73,3 +81,4 @@ To test, run the following command: `python manager.py test`
 ## Credits and License
 
 Copyright (c) 2018 [olawolemoses](https://github.com/olawolemoses)
+
