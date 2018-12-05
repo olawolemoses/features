@@ -18,7 +18,7 @@
                     <div class="time-item">
                         <div class="item-info">
                             <small class="text-muted">{{ moment(log.timestamp).fromNow() }}</small>
-                            <p><strong><a href="#" class="text-info">{{ log.user.username }}</a></strong> {{ log.action }} <strong>"{{ log.feature.title }}"</strong></p>
+                            <p><strong><a href="#" class="text-info">{{ log.username }}</a></strong> {{ log.action }} <strong>"{{ log.feature}}"</strong></p>
                         </div>
                     </div>
                   {% endfor %}

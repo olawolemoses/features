@@ -7,7 +7,18 @@ from flask_login import login_required, current_user
 from . import clients
 from forms import ClientForm
 from .. import db
-from ..models import User, Client, ProductArea, Feature, User
+from ..models import User, Client, ProductArea, Feature, User, Log
+
+
+@clients.route('/index')
+@login_required
+def index():
+    """
+    List all Clients
+    """
+    clients = Client.query.all()
+    return render_template('clients/index.html', clients=clients)
+
 
 @clients.route('/new', methods=['GET', 'POST'])
 @login_required
@@ -26,16 +37,6 @@ def create():
             flash('Error: failed to add a client')
         return redirect(url_for('.index'))
     return render_template('clients/create.html', form=form)
-
-@clients.route('/index')
-@login_required
-def index():
-    """
-    List all Clients
-    """
-    clients = Client.query.all()
-    return render_template('clients/index.html', clients=clients)
-
 
 @clients.route('/show/<id>')
 @login_required

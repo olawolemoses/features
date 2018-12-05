@@ -46,9 +46,8 @@
                                   <thead>
                                     <tr>
                                       <th data-priority="1">SN</th>
-                                      <th data-priority="2">Name </th>
+                                      <th data-priority="2">Role </th>
                                       <th data-priority="3">Description </th>
-                                      <th data-priority="4">Employee Count </th>
                                       <th data-priority="5">Actions </th>
 
                                     </tr>
@@ -61,13 +60,7 @@
                                         <th><span class="co-name">{{ count }}</span></th>
                                         <td> {{ role.name }} </td>
                                         <td> {{ role.description }} </td>
-                                        <td>
-                                          {% if role.employees %}
-                                            {{ role.employees.count() }}
-                                          {% else %}
-                                            0
-                                          {% endif %}
-                                        </td>                                        
+
                                         <td>
                                           <a href="#" class="mr-3" data-toggle="modal" data-target="#exampleModal" data-id="{{role.id}}" data-rolename="{{role.name}}">
                                                   <i class="md md-delete"></i> Delete
@@ -99,4 +92,61 @@
             </div>
       <!-- end content -->
   </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header" id="difftype">
+
+                <h5 class="modal-title" id="exampleModalLabel">Delete a Role</h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+
+              <form action="{{ url_for('admin.delete_role')}}" method="post">
+              <div class="modal-body">
+
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" id="role_id" name="role_id">
+
+                <p class="text-center">Are sure you want to delete the role <span id="rolename"></span></p>
+
+              </div>
+
+
+
+
+                  <div class="modal-footer">
+                      <button type="button" class="btn btncan" data-dismiss="modal">CANCEL</button>
+                      <button type="submit" class="btn btn-primary">DELETE</button>
+                  </div>
+
+              </form>
+          </div>
+      </div>
+  </div>
+  <!-- ============================================================== -->
+  <!-- End Right content here -->
+  <!-- ============================================================== -->
+
+{% endblock %}
+
+{% block script %}
+<script>
+$(document).ready(function() {
+      $('.request').addClass("active");
+});
+
+$(function() {
+    $('#exampleModal').on("show.bs.modal", function (e) {
+        $("#role_id").val($(e.relatedTarget).data('id'));
+        $("#rolename").text($(e.relatedTarget).data('rolename'));
+    });
+});
+
+</script>
 {% endblock %}

@@ -3,9 +3,9 @@ from flask import render_template, session, redirect, url_for, request, flash, a
 from flask_login import login_required, current_user
 from . import admin
 from ..auth.forms import RegistrationForm
-from .forms import RoleForm, UserAssignForm
+from .forms import RoleForm, UserAssignForm, RoleEditForm
 from .. import db
-from ..models import User, Client, ProductArea, Feature, User, Role
+from ..models import User, Client, ProductArea, Feature, User, Role, Log
 
 @admin.route('/users/index')
 @login_required
@@ -79,7 +79,6 @@ def add_role():
     if form.validate_on_submit():
         role = Role(name=form.name.data,
                     description=form.description.data)
-
         try:
             # add role to the database
             db.session.add(role)
@@ -108,7 +107,7 @@ def edit_role(id):
     add_role = False
 
     role = Role.query.get_or_404(id)
-    form = RoleForm(obj=role)
+    form = RoleEditForm(obj=role)
     if form.validate_on_submit():
         role.name = form.name.data
         role.description = form.description.data
@@ -127,25 +126,23 @@ def edit_role(id):
                            form=form, title="Edit Role")
 
 
-@admin.route('/roles/delete/<int:id>', methods=['GET', 'POST'])
+@admin.route('/delete/', methods=['POST'])
 @login_required
-def delete_role(id):
+def delete_role():
     """
     Delete a role from the database
     """
     check_admin()
 
+    id = request.form['role_id']
     role = Role.query.get_or_404(id)
     try:
         db.session.delete(role)
         db.session.commit()
-        flash('You have successfully deleted the role.')
+        flash('You have successfully deleted the Role.')
     except:
-        flash('An error occured while trying to delete the role.')
-    # redirect to the roles page
-    return redirect(url_for('admin.list_roles'))
-
-    return render_template(title="Delete Role")
+        flash('Error: failed to delete this role')
+    return redirect(url_for('.list_roles'))
 
 @admin.context_processor
 def inject_logs():

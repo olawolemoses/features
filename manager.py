@@ -14,7 +14,7 @@ if os.path.exists('.env'):
             os.environ[var[0]] = var[1]
 
 from app import create_app, db
-from app.models import User
+from app.models import User, Client, Role, ProductArea, Project
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
 
@@ -25,9 +25,47 @@ migrate = Migrate(app, db)
 
 def make_shell_context():
     return dict(app=app, db=db, User=User)
+
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 
+
+@manager.command
+def seed():
+    "Add seed data to the database."
+    #clients
+    client1 = Client(client_name="Client A")
+    db.session.add(client1)
+    client2 =Client(client_name="Client B")
+    db.session.add(client2)
+    client3 = Client(client_name="Client C")
+    db.session.add(client3)
+
+    #roles
+    role1 = Role(name="Admin", description='Admin of IWS')
+    db.session.add(role1)
+    role2 =Role(name="Staff", description='Staff of IWS')
+    db.session.add(role2)
+
+    #product areas
+    product_area1 = ProductArea(product_area="Policies")
+    db.session.add(product_area1)
+    product_area2 =ProductArea(product_area="Billing")
+    db.session.add(product_area2)
+    product_area3 = ProductArea(product_area="Claims")
+    db.session.add(product_area3)
+    product_area3 = ProductArea(product_area="Reports")
+    db.session.add(product_area3)
+
+    #project
+    project1 = Project(project_name="Project A")
+    db.session.add(project1)
+    project2 =Project(project_name="Project B")
+    db.session.add(project2)
+    project3 = Project(project_name="Project C")
+    db.session.add(project3)
+
+    db.session.commit()
 
 @manager.command
 def test(coverage=False):

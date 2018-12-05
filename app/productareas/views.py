@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 from . import productareas
 from .forms import ProductAreaForm
 from .. import db
-from ..models import User, Client, ProductArea, Feature, User
+from ..models import User, Client, ProductArea, Feature, User, Log
 
 @productareas.route('/new', methods=['GET', 'POST'])
 @login_required

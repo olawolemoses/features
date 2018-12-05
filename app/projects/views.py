@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 from . import projects
 from .forms import ProjectForm
 from .. import db
-from ..models import User, Client, ProductArea, Feature, User, Project
+from ..models import User, Client, ProductArea, Feature, User, Project, Log
 
 @projects.route('/new', methods=['GET', 'POST'])
 @login_required

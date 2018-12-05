@@ -34,14 +34,16 @@ def create():
 
         # reorder
         arr = \
-            Feature.query.filter_by(client_id=form.client.data).order_by(Feature.client_priority).all()
+            Feature.query.filter(Feature.project_id == feature.project_id) \
+                         .filter(Feature.client_id == form.client.data) \
+                         .order_by(Feature.client_priority).all()
         reorder(arr, form.client_priority.data)
         try:
             db.session.add(feature)
             db.session.commit()
             log = Log(
-                    user_id=current_user._get_current_object().id,
-                    feature_id=feature.id,
+                    username=current_user._get_current_object().username,
+                    feature=feature,
                     action="created",
                     timestamp=datetime.utcnow()
                 )
@@ -107,16 +109,17 @@ def edit(id):
         feature.client_id = form.client.data
         feature.project_id = form.project.data
         feature.user_id = current_user._get_current_object().id
-        arr = Feature.query.filter(Feature.client_id
-                                   == form.client.data).filter(Feature.id
-                != feature.id).order_by(Feature.client_priority).all()
+        arr = Feature.query.filter(Feature.client_id == form.client.data) \
+                            .filter(Feature.project_id == feature.project_id) \
+                            .filter(Feature.id != feature.id) \
+                            .order_by(Feature.client_priority).all()
         reorder(arr, form.client_priority.data)
         try:
             db.session.add(feature)
             db.session.commit()
             log = Log(
-                    user_id=current_user._get_current_object().id,
-                    feature_id=feature.id,
+                    username=current_user._get_current_object().username,
+                    feature=feature,
                     action="updated",
                     timestamp=datetime.utcnow()
             )
@@ -151,11 +154,10 @@ def delete():
     feature = Feature.query.get_or_404(id)
     try:
         db.session.delete(feature)
-        db.session.commit()
 
         log = Log(
-                user_id=current_user._get_current_object().id,
-                feature_id=feature.id,
+                username=current_user._get_current_object().username,
+                feature=feature,
                 action="deleted",
                 timestamp=datetime.utcnow()
             )

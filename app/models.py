@@ -8,7 +8,17 @@ class Permission:
     WRITE_ARTICLES = 0x04
     MODERATE_COMMENTS = 0x08
     ADMINISTER = 0x80
-    
+
+from sqlalchemy.event import listen
+
+# second solution
+def insert_initial_values(*args, **kwargs):
+    db.session.add(Client(client_name='Client A'))
+    db.session.add(Client(client_name='Client B'))
+    db.session.add(Client(client_name='Client C'))
+    db.session.commit()
+
+
 class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
@@ -55,7 +65,6 @@ class User(UserMixin, db.Model):
     is_admin = db.Column(db.Integer, default=False)
 
     features = db.relationship("Feature", backref="user",  lazy='dynamic')
-    logs = db.relationship("Log", backref="user",  lazy='dynamic')
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -85,7 +94,6 @@ class Feature(db.Model):
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
-    logs = db.relationship("Log", backref="feature",  lazy='dynamic')
 
     def __init__(self, title, description, client_id, client_priority, target_date, product_area_id, user_id, project_id ):
 
@@ -111,6 +119,21 @@ class Client(db.Model):
 
     def __init__(self, client_name):
         self.client_name = client_name
+
+    @staticmethod
+    def insert_clients():
+        clients = {
+            'client_name': 'Client A',
+            'client_name': 'Client B',
+            'client_name': 'Client C',
+
+        }
+        for c in clients:
+            client = Client.query.filter_by(client_name=c.client_name).first()
+            if client is None:
+                client = Client(client_name=c.client_name)
+            db.session.add(client)
+        db.session.commit()
 
     def __repr__(self):
         return '<Client %r>' % self.client_name
@@ -153,20 +176,20 @@ class Log(db.Model):
     __tablename__ = 'logs'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column('user_id', db.Integer,  db.ForeignKey('users.id'), nullable=False)
+    username = db.Column('username', db.Text, nullable=False)
     action = db.Column(db.Text)
-    feature_id = db.Column('feature_id', db.Integer,  db.ForeignKey('features.id'), nullable=False)
+    feature = db.Column('feature', db.Text, nullable=False)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
-    def __init__(self, user_id, feature_id, action, timestamp):
-        self.user_id = user_id
+    def __init__(self, username, feature, action, timestamp):
+        self.username = username
         self.action = action
-        self.feature_id = feature_id
+        self.feature = str(feature.id) + ' ' + feature.title
         self.timestamp = timestamp
 
     def __repr__(self):
-        return '<Log %r>' % self.user.username + ' ' + self.action \
-                        + ' ' + self.feature.title + ' ' + unicode(self.timestamp)
+        return '<Log %r>' % self.username + ' ' + self.action \
+                        + ' ' + self.feature + ' ' + unicode(self.timestamp)
 
 
 from . import login_manager
