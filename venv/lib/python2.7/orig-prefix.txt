@@ -1,1 +1,1 @@
-/Users/a2017/anaconda2
+/usr

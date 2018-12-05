@@ -1,4 +1,4 @@
-from flask.ext.wtf import Form
+from flask_wtf import Form
 from wtforms import StringField, SubmitField, SelectField, DateField, TextAreaField
 from wtforms.validators import Required, Length, Email, Regexp
 from ..models import Feature, User, Client, ProductArea, Project
