@@ -1,5 +1,6 @@
 from flask_wtf import Form
-from wtforms import StringField, SubmitField, SelectField, DateField, TextAreaField
+from wtforms import StringField, SubmitField, SelectField, DateField, TextAreaField, IntegerField
+from wtforms.widgets import HiddenInput
 from wtforms.validators import Required, Length, Email, Regexp
 from ..models import Feature, User, Client, ProductArea, Project
 from wtf_tinymce.forms.fields import TinyMceField
@@ -10,7 +11,7 @@ class FeatureForm(Form):
     client_priority = SelectField('Client Priority', validators=[Required()],coerce=int, default=None)
     target_date = DateField('Target Date', format="%m/%d/%Y", validators=[Required()])
     product_area = SelectField('Product Area', coerce=int, validators=[Required()], default=None)
-    user_id =  IntegerField("", widget=HiddenInput() )
+    user =  IntegerField("", widget=HiddenInput() )
     client = SelectField('Client', coerce=int, validators=[Required()], default=(None, '--'))
     project = SelectField('Project', coerce=int, validators=[Required()], default=None)
     submit = SubmitField('Submit')
