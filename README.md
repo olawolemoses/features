@@ -1,4 +1,7 @@
-The complete guide to running the code
+The IWS Features app was deployed on AWS EC2 Ubuntu Server 18.04 LTS
+
+The demo url: [DEMO](http://54.84.109.67)
+
 
 ## Installation and Set Up
 Prerequisites:
