@@ -18,7 +18,9 @@ class ClientModuleTestCase(unittest.TestCase):
         self.app_context.pop()
 
     def test_admin_list_clients(self):
-
+        """
+        Test that the user can list clients
+        """
         # create 3  non-admin user
         client1 = Client(client_name="test_client1")
         db.session.add(client1)
@@ -51,6 +53,9 @@ class ClientModuleTestCase(unittest.TestCase):
         self.assertTrue(client3.client_name in response.data)
 
     def test_admin_add_client(self):
+        """
+        Test that the user can add client
+        """
         # register an admin account
         admin = User(username="admin", email="admin@admin.com", password="admin2016", is_admin=True)
         db.session.add(admin)
@@ -72,6 +77,9 @@ class ClientModuleTestCase(unittest.TestCase):
         self.assertTrue(re.search('Client A', response.data))
 
     def test_admin_edit_client(self):
+        """
+        Test that the user can edit a client
+        """
         # register an admin account
         admin = User(username="admin", email="admin@admin.com", password="admin2016", is_admin=True)
         db.session.add(admin)
@@ -100,6 +108,9 @@ class ClientModuleTestCase(unittest.TestCase):
         self.assertTrue(re.search('Client B', response.data))
 
     def test_admin_delete_client(self):
+        """
+        Test that the user can delete a client
+        """
         # register an admin account
         admin = User(username="admin", email="admin@admin.com", password="admin2016", is_admin=True)
         db.session.add(admin)

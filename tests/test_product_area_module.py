@@ -18,7 +18,9 @@ class ProductAreaModuleTestCase(unittest.TestCase):
         self.app_context.pop()
 
     def test_admin_list_product_areas(self):
-
+        """
+        Test that the user can list product area
+        """
         # create 3  non-admin user
         product_area1 = ProductArea(product_area="ProductArea A")
         db.session.add(product_area1)
@@ -51,6 +53,9 @@ class ProductAreaModuleTestCase(unittest.TestCase):
         self.assertTrue(product_area3.product_area in response.data)
 
     def test_admin_add_product_area(self):
+        """
+        Test that the user can add a product area
+        """
         # register an admin account
         admin = User(username="admin", email="admin@admin.com", password="admin2016", is_admin=True)
         db.session.add(admin)
@@ -72,6 +77,9 @@ class ProductAreaModuleTestCase(unittest.TestCase):
         self.assertTrue(re.search('product_area A', response.data))
 
     def test_admin_edit_product_area(self):
+        """
+        Test that the user can edit a product area
+        """
         # register an admin account
         admin = User(username="admin", email="admin@admin.com", password="admin2016", is_admin=True)
         db.session.add(admin)
@@ -101,6 +109,9 @@ class ProductAreaModuleTestCase(unittest.TestCase):
         self.assertTrue(re.search('product_area B', response.data))
 
     def test_admin_delete_product_area(self):
+        """
+        Test that the user can delete a product area
+        """
         # register an admin account
         admin = User(username="admin", email="admin@admin.com", password="admin2016", is_admin=True)
         db.session.add(admin)

@@ -19,7 +19,10 @@ class AdminModuleTestCase(unittest.TestCase):
         self.app_context.pop()
 
     def test_register_and_login(self):
-        # register a new account
+        """
+        Test that register page is functional and a user
+        can login
+        """
         response = self.client.post(url_for('auth.register'), data={
             'email': 'john@example.com',
             'username': 'john',
@@ -36,18 +39,14 @@ class AdminModuleTestCase(unittest.TestCase):
             }, follow_redirects=True)
         self.assertTrue(re.search('john', response.data))
 
-        # # # send a confirmation token
-        # user = User.query.filter_by(email='john@example.com').first()
-        # token = user.generate_confirmation_token()
-        # response = self.client.get(url_for('auth.confirm', token=token),
-        #                            follow_redirects=True)
-        # self.assertTrue(b'Login' in response.data)
-
         # log out
         response = self.client.get(url_for('auth.logout'), follow_redirects=True)
         self.assertTrue(b'Login' in response.data)
 
     def test_admin_list_users(self):
+        """
+        Test that the admin can access the list_users page
+        """
         # register an admin account
         admin = User(username="admin", email="admin@admin.com", password="admin2016", is_admin=True)
         db.session.add(admin)
@@ -80,6 +79,9 @@ class AdminModuleTestCase(unittest.TestCase):
         self.assertTrue(user3.username in response.data)
 
     def test_admin_users_assign(self):
+        """
+        Test that the admin can assign a user to a role
+        """
         # register an admin account
         admin = User(username="admin", email="admin@admin.com", password="admin2016", is_admin=True)
         db.session.add(admin)
@@ -111,6 +113,9 @@ class AdminModuleTestCase(unittest.TestCase):
         self.assertTrue(response.status_code == 302)
 
     def test_admin_list_roles(self):
+        """
+        Test that the admin can list the current roles
+        """
         # register an admin account
         admin = User(username="admin", email="admin@admin.com", password="admin2016", is_admin=True)
         db.session.add(admin)
@@ -142,6 +147,9 @@ class AdminModuleTestCase(unittest.TestCase):
         self.assertTrue(role3.name in response.data)
 
     def test_admin_add_role(self):
+        """
+        Test that the admin can add a role
+        """
         # register an admin account
         admin = User(username="admin", email="admin@admin.com", password="admin2016", is_admin=True)
         db.session.add(admin)
@@ -164,6 +172,9 @@ class AdminModuleTestCase(unittest.TestCase):
         self.assertTrue(re.search('CEO', response.data))
 
     def test_admin_edit_role(self):
+        """
+        Test that the admin can edit a role
+        """
         # register an admin account
         admin = User(username="admin", email="admin@admin.com", password="admin2016", is_admin=True)
         db.session.add(admin)
@@ -193,6 +204,9 @@ class AdminModuleTestCase(unittest.TestCase):
         self.assertTrue(re.search('CEO', response.data))
 
     def test_admin_delete_role(self):
+        """
+        Test that an admin can delete a role 
+        """
         # register an admin account
         admin = User(username="admin", email="admin@admin.com", password="admin2016", is_admin=True)
         db.session.add(admin)

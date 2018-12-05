@@ -19,22 +19,28 @@ class FeaturesModuleTestCase(unittest.TestCase):
         self.app_context.pop()
 
     def test_admin_list_features(self):
-
+        """
+        Test that the features module is functional
+        """
+        # create admin
         admin = User(username="admin", email="admin@admin.com", password="admin2016", is_admin=True)
         db.session.add(admin)
         db.session.commit()
 
+        # create product area
         product_area = ProductArea(product_area="product_area A")
         db.session.add(product_area)
 
+        # create project
         project = Project(project_name="Project A")
         db.session.add(project)
 
+        # create client
         client = Client(client_name="Client A")
         db.session.add(client)
         db.session.commit()
 
-        #feature
+        # create feature
         feature1 = Feature(title="update feature",
                             description="update description ",
                             client_priority=1,
@@ -75,11 +81,11 @@ class FeaturesModuleTestCase(unittest.TestCase):
             }, follow_redirects=True)
         self.assertTrue(re.search('Feature A', response.data))
 
-        # view a edit feature page
+        # test that the edit feature page is accessible
         response = self.client.get(url_for('hrequests.edit', id=feature1.id))
         self.assertTrue(re.search('update feature', response.data))
 
-        # view a edit role page
+        # test the edit feature is functional
         response = self.client.post(url_for('hrequests.edit', id=feature1.id),  data={
                 'title': 'Feature X',
                 'description' : feature1.description,

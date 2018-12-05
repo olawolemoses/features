@@ -7,6 +7,9 @@ from tests.TestBase import TestBase
 class ModelsTestCase(TestBase):
 
     def test_productarea_creation(self):
+        """
+        Test the productarea models can create
+        """
         # create test clients
         productarea1 = ProductArea(product_area="Product Area A")
         productarea2 = ProductArea(product_area="Product Area B")
@@ -22,6 +25,9 @@ class ModelsTestCase(TestBase):
         self.assertEqual(ProductArea.query.count(), 3)
 
     def test_project_creation(self):
+        """
+        Test the project models can create
+        """
         # create test clients
         ProjectA = Project(project_name="Project A")
         ProjectB = Project(project_name="Project B")
@@ -69,6 +75,9 @@ class ModelsTestCase(TestBase):
         self.assertTrue(u.password_hash != u2.password_hash)
 
     def test_user_creation(self):
+        """
+        Test the users models can create
+        """
         # create test admin user
         admin = User(username="admin", email="olawolemoses@gmail.com", password="admin2016", is_admin=True)
 
@@ -83,6 +92,9 @@ class ModelsTestCase(TestBase):
         self.assertEqual(User.query.count(), 2)
 
     def test_client_creation(self):
+        """
+        Test the client models can create
+        """
         # create test clients
         clientA = Client(client_name="Client A")
         clientB = Client(client_name="Client B")

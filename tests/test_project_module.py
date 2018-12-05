@@ -18,7 +18,9 @@ class ProjectTestCase(unittest.TestCase):
         self.app_context.pop()
 
     def test_admin_list_projects(self):
-
+        """
+        Test that the user can list projects
+        """
         # create 3  non-admin user
         project1 = Project(project_name="Project A")
         db.session.add(project1)
@@ -51,6 +53,9 @@ class ProjectTestCase(unittest.TestCase):
         self.assertTrue(project3.project_name in response.data)
 
     def test_admin_add_project(self):
+        """
+        Test that the user can add a project
+        """
         # register an admin account
         admin = User(username="admin", email="admin@admin.com", password="admin2016", is_admin=True)
         db.session.add(admin)
@@ -72,6 +77,9 @@ class ProjectTestCase(unittest.TestCase):
         self.assertTrue(re.search('Project A', response.data))
 
     def test_admin_edit_project(self):
+        """
+        Test that the user can edit a project
+        """
         # register an admin account
         admin = User(username="admin", email="admin@admin.com", password="admin2016", is_admin=True)
         db.session.add(admin)
@@ -101,6 +109,9 @@ class ProjectTestCase(unittest.TestCase):
         self.assertTrue(re.search('Project B', response.data))
 
     def test_admin_delete_project(self):
+        """
+        Test that the user can delete a project
+        """
         # register an admin account
         admin = User(username="admin", email="admin@admin.com", password="admin2016", is_admin=True)
         db.session.add(admin)
