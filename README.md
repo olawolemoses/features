@@ -21,6 +21,7 @@ source venv/bin/activate
 Install the required packages:
 ```
 pip install --upgrade setuptools
+pip install mysqlpy
 pip install -r requirements.txt
 ```
 
@@ -29,7 +30,7 @@ pip install -r requirements.txt
 * Grant all privileges on your database to the user, like so:
 
 ```
-$ mysql -u root
+$ mysql -uroot -p
 
 mysql> CREATE USER 'iws_admin'@'localhost' IDENTIFIED BY 'iws2016';
 
@@ -71,4 +72,4 @@ To test, run the following command: `python manager.py test`
 
 ## Credits and License
 
-Copyright (c) 2017 [olawolemoses](https://github.com/olawolemoses)
+Copyright (c) 2018 [olawolemoses](https://github.com/olawolemoses)
