@@ -45,7 +45,7 @@ mysql> CREATE DATABASE `hrequests-dev`;
 mysql> GRANT ALL PRIVILEGES ON `hrequests-dev` . * TO 'iws_admin'@'localhost';
 ```
 
-## features/config.py file
+## Features/config.py file
 In the directory `config.py` file currently exist. The app has the following configuration variables:
 * SECRET_KEY
 * SQLALCHEMY_DATABASE_URI (`'mysql://iws_admin:iws2016@localhost/hrequests-dev'`)
@@ -78,7 +78,7 @@ mysql> GRANT ALL PRIVILEGES ON `hrequests-test` . * TO 'iws_admin'@'localhost';
 
 To test, run the following command: `python manager.py test`
 
-## Built With :heart:
+## Built With :heart: using
 * [Flask](http://flask.pocoo.org/)
 
 ## Credits and License
