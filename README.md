@@ -32,7 +32,7 @@ pip install -r requirements.txt
 
 
 ## Database configuration
-* Create a MySQL user your terminal and a MySQL database.
+* Create a MySQL user on your terminal and a MySQL database.
 * Grant all privileges on your database to the user, like so:
 
 ```

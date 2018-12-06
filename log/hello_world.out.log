@@ -18,3 +18,15 @@ FROM logs
 2018-12-05 23:25:46,611 INFO sqlalchemy.engine.base.Engine ()
 logs:  []
 2018-12-05 23:25:46,634 INFO sqlalchemy.engine.base.Engine COMMIT
+2018-12-06 00:29:03,482 INFO sqlalchemy.engine.base.Engine BEGIN (implicit)
+2018-12-06 00:29:03,482 INFO sqlalchemy.engine.base.Engine SELECT logs.id AS logs_id, logs.username AS logs_username, logs.action AS logs_action, logs.feature AS logs_feature, logs.timestamp AS logs_timestamp 
+FROM logs
+2018-12-06 00:29:03,482 INFO sqlalchemy.engine.base.Engine ()
+logs:  []
+2018-12-06 00:29:03,486 INFO sqlalchemy.engine.base.Engine COMMIT
+2018-12-06 00:29:07,451 INFO sqlalchemy.engine.base.Engine BEGIN (implicit)
+2018-12-06 00:29:07,452 INFO sqlalchemy.engine.base.Engine SELECT logs.id AS logs_id, logs.username AS logs_username, logs.action AS logs_action, logs.feature AS logs_feature, logs.timestamp AS logs_timestamp 
+FROM logs
+2018-12-06 00:29:07,452 INFO sqlalchemy.engine.base.Engine ()
+logs:  []
+2018-12-06 00:29:07,455 INFO sqlalchemy.engine.base.Engine COMMIT
