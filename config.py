@@ -21,17 +21,17 @@ class DevelopmentConfig(Config):
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    SQLALCHEMY_DATABASE_URI = 'mysql://iws_admin:iws2016*@localhost/hrequests-dev'
+    SQLALCHEMY_DATABASE_URI = 'mysql://root@localhost/hrequests-dev'
     DEBUG = True
     SQLALCHEMY_ECHO = True
 
 class TestingConfig(Config):
     TESTING = True
     WTF_CSRF_ENABLED = False
-    SQLALCHEMY_DATABASE_URI = 'mysql://iws_admin:iws2016*@localhost/hrequests-test'
+    SQLALCHEMY_DATABASE_URI = 'mysql://root@localhost/hrequests-test'
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'mysql://iws_admin:iws2016*@localhost/hrequests'
+    SQLALCHEMY_DATABASE_URI = 'mysql://root@localhost/hrequests'
 
 config = {
     'development': DevelopmentConfig,

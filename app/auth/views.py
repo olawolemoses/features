@@ -55,7 +55,8 @@ def register():
         try:
             db.session.add(user)
             flash('You can now login.')
+            return redirect(url_for('auth.login'))
         except:
             flash('An error occured while trying to register')
-        return redirect(url_for('auth.login'))
+
     return render_template('auth/register.html', form=form)
